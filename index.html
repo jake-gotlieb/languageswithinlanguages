@@ -1145,6 +1145,16 @@
 
   </main>
 
+  <div id="lightbox" onclick="handleLightboxClick(event)">
+    <button id="lightbox-close" onclick="closeLightbox()" aria-label="Close">✕</button>
+    <img id="lightbox-img" src="" alt="">
+    <div id="lightbox-caption">
+      <strong id="lightbox-label"></strong>
+      <span id="lightbox-body"></span>
+    </div>
+    <div id="lightbox-nav"></div>
+  </div>
+
   <footer>
     Languages within Languages · Jake Gotlieb · 2026
   </footer>
