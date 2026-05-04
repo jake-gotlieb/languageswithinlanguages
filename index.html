@@ -526,6 +526,224 @@
       font-family: 'Calibri', monospace;
       letter-spacing: 0.06em;
     }
+
+    /* ── CLICKABLE FIGURE ── */
+    .fig-wrap {
+      margin: 1.5rem 0;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1.5px solid var(--border);
+    }
+    .fig-thumb {
+      position: relative;
+      cursor: zoom-in;
+      overflow: hidden;
+      background: #f0ece8;
+      display: block;
+    }
+    .fig-thumb img {
+      width: 100%;
+      display: block;
+      max-height: 320px;
+      object-fit: cover;
+      object-position: top;
+      transition: transform 0.35s cubic-bezier(0.4,0,0.2,1), filter 0.3s;
+      filter: brightness(0.97);
+    }
+    .fig-thumb:hover img { transform: scale(1.015); filter: brightness(1); }
+    .fig-thumb-label {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      background: linear-gradient(to top, #1a122088, transparent);
+      color: var(--cream);
+      padding: 1.2rem 1.1rem 0.7rem;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      pointer-events: none;
+    }
+    .fig-thumb-label .expand-hint {
+      font-size: 0.65rem;
+      opacity: 0.75;
+    }
+    .fig-static-caption {
+      padding: 0.7rem 1.1rem 0.9rem;
+      font-size: 0.8rem;
+      color: #6a6070;
+      font-style: italic;
+      background: var(--cream);
+      border-top: 1px solid var(--border);
+    }
+    .fig-static-caption strong {
+      font-style: normal;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #999;
+      display: block;
+      margin-bottom: 0.2rem;
+    }
+   
+    /* ── PALMER COLLAGE ── */
+    .collage-wrap { margin: 1.5rem 0; }
+    .collage-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      grid-template-rows: auto auto;
+      gap: 6px;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1.5px solid var(--border);
+    }
+    .collage-cell {
+      position: relative;
+      cursor: zoom-in;
+      overflow: hidden;
+      background: #f0ece8;
+    }
+    .collage-cell:nth-child(1) { grid-row: 1 / 3; grid-column: 1; }
+    .collage-cell:nth-child(2) { grid-row: 1; grid-column: 2; }
+    .collage-cell:nth-child(3) { grid-row: 2; grid-column: 2; }
+    .collage-cell:nth-child(4) { grid-row: 1; grid-column: 3; }
+    .collage-cell:nth-child(5) { grid-row: 2; grid-column: 3; }
+    .collage-cell img {
+      width: 100%; height: 100%;
+      object-fit: cover; object-position: top;
+      display: block;
+      min-height: 160px;
+      transition: transform 0.35s cubic-bezier(0.4,0,0.2,1), filter 0.3s;
+      filter: brightness(0.95);
+    }
+    .collage-cell:hover img { transform: scale(1.04); filter: brightness(1.04); }
+    .collage-cell-label {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      background: linear-gradient(to top, #1a122099, transparent);
+      color: var(--cream);
+      padding: 1rem 0.7rem 0.5rem;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      pointer-events: none;
+    }
+    .collage-hint {
+      padding: 0.65rem 1rem;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.08em;
+      color: #aaa;
+      text-align: center;
+      border: 1.5px solid var(--border);
+      border-top: none;
+      border-radius: 0 0 12px 12px;
+      background: var(--cream);
+    }
+   
+    /* ── LIGHTBOX ── */
+    #lightbox {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 999;
+      background: rgba(10, 8, 16, 0.92);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      cursor: zoom-out;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      padding: 2rem;
+      animation: lbFadeIn 0.25s ease;
+    }
+    #lightbox.active { display: flex; }
+    @keyframes lbFadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+    #lightbox-img {
+      max-width: min(90vw, 960px);
+      max-height: 80vh;
+      object-fit: contain;
+      border-radius: 10px;
+      box-shadow: 0 32px 80px #00000088;
+      animation: lbSlideUp 0.28s cubic-bezier(0.4,0,0.2,1);
+      cursor: default;
+    }
+    @keyframes lbSlideUp {
+      from { opacity: 0; transform: translateY(18px) scale(0.97); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    #lightbox-caption {
+      margin-top: 1.1rem;
+      text-align: center;
+      color: #c8c0d8;
+      font-size: 0.85rem;
+      line-height: 1.5;
+      max-width: 600px;
+      cursor: default;
+    }
+    #lightbox-caption strong {
+      display: block;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--pink);
+      margin-bottom: 0.3rem;
+    }
+    #lightbox-close {
+      position: fixed;
+      top: 1.2rem; right: 1.4rem;
+      background: none; border: none;
+      color: #ffffff88;
+      font-size: 1.8rem;
+      cursor: pointer;
+      line-height: 1;
+      transition: color 0.2s;
+      padding: 0.3rem;
+    }
+    #lightbox-close:hover { color: white; }
+    #lightbox-nav {
+      position: fixed;
+      bottom: 1.5rem;
+      display: flex;
+      gap: 0.6rem;
+      align-items: center;
+    }
+    .lb-nav-dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: #ffffff33;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.2s;
+      border: none;
+    }
+    .lb-nav-dot.active { background: var(--pink); transform: scale(1.3); }
+    .lb-arrow {
+      background: none; border: 1.5px solid #ffffff33;
+      color: white; font-size: 1.1rem;
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.2s, border-color 0.2s;
+    }
+    .lb-arrow:hover { background: #ffffff18; border-color: #ffffff66; }
+   
+    @media (max-width: 600px) {
+      .collage-grid { grid-template-columns: 1fr 1fr; }
+      .collage-cell:nth-child(1) { grid-column: 1 / 3; grid-row: 1; }
+      .collage-cell:nth-child(2) { grid-column: 1; grid-row: 2; }
+      .collage-cell:nth-child(3) { grid-column: 2; grid-row: 2; }
+      .collage-cell:nth-child(4) { grid-column: 1; grid-row: 3; }
+      .collage-cell:nth-child(5) { grid-column: 2; grid-row: 3; }
+    }
   </style>
 </head>
 
@@ -693,10 +911,18 @@
         that he fed into ChatGPT-4o for each of the 13 languages. The questions are constructed so that they include
         near universal concepts like home, love, happiness, and nature:</p>
 
-      <div class="figure-box">
-        <div class="fig-icon">📋</div>
-        <p>Ray's 10 culturally salient prompts</p>
-        <p class="fig-caption">Figure — Insert Ray (2025) prompt table here</p>
+      <div class="fig-wrap">
+        <div class="fig-thumb" onclick="openLightbox([{src:'/languageswithinlanguages/Ray.png', label:'Ray (2025) — Prompt Table', body:'Ray\'s 10 culturally salient prompts fed into ChatGPT-4o across 13 languages, constructed around near-universal concepts like home, love, happiness, and nature.'}], 0)">
+          <img src="/languageswithinlanguages/Ray.png" alt="Ray's 10 culturally salient prompts" onerror="this.style.minHeight='160px'; this.style.background='#f0ece8'">
+          <div class="fig-thumb-label">
+            <span>Ray (2025) — Prompt Table</span>
+            <span class="expand-hint">click to enlarge ⤢</span>
+          </div>
+        </div>
+        <div class="fig-static-caption">
+          <strong>Figure — Ray (2025)</strong>
+          Ray's 10 culturally salient prompts fed into ChatGPT-4o across 13 languages, constructed around near-universal concepts like home, love, happiness, and nature.
+        </div>
       </div>
 
       <p>The data collected from running the prompts through the different languages was then analyzed using tests for
@@ -786,12 +1012,18 @@
         illustrated nicely by figure 1 which uses a really thoughtful analogy, comparing layer X to a raw sound wave
         with different compression algorithms yielding different output patterns in layer L:</p>
 
-      <div class="figure-box">
-        <div class="fig-icon">🎵</div>
-        <p>Figure 1 — Layer X as a raw sound wave; different compression algorithms yield different output patterns in
-          layer L</p>
-        <p class="fig-caption">Figure 1 — Insert Dubey (2025) compression diagram here</p>
-        <img src="/languageswithinlanguages/Dubey.png" alt="Dubey Figure 1">
+      <div class="fig-wrap">
+        <div class="fig-thumb" onclick="openLightbox([{src:'/languageswithinlanguages/Dubey.png', label:'Figure 1 — Dubey (2025)', body:'Layer X represented as a raw sound wave, with different compression algorithms yielding different output patterns in layer L — illustrating how language compresses pre-linguistic cognition.'}], 0)">
+          <img src="/languageswithinlanguages/Dubey.png" alt="Dubey Figure 1 — compression analogy" onerror="this.style.minHeight='160px'; this.style.background='#f0ece8'">
+          <div class="fig-thumb-label">
+            <span>Dubey (2025) — Figure 1</span>
+            <span class="expand-hint">click to enlarge ⤢</span>
+          </div>
+        </div>
+        <div class="fig-static-caption">
+          <strong>Figure 1 — Dubey (2025)</strong>
+          Layer X represented as a raw sound wave, with different compression algorithms yielding different output patterns in layer L — illustrating how language compresses pre-linguistic cognition.
+        </div>
       </div>
 
       <p>Dubey then uses his theory to make a set of 5 predictions about how AI systems would perform as a result. A
@@ -819,11 +1051,30 @@
         example, looks at semantic resonance continuity cross-linguistically in different semantic domains ranging from
         emotional statements to metaphors and idioms:</p>
 
-      <div class="figure-box">
-        <div class="fig-icon">🕸️</div>
-        <p>Hypothesis 5.8 — Semantic resonance continuity cross-linguistically across semantic domains ranging from
-          emotional statements to metaphors and idioms</p>
-        <p class="fig-caption">Figure — Insert Palmer (2025) Hypothesis 5.8 diagram here</p>
+      <div class="collage-wrap">
+        <div class="collage-grid">
+          <div class="collage-cell" onclick="openLightbox(palmerFigs, 0)">
+            <img src="/languageswithinlanguages/Palmer.png" alt="Palmer Figure 1" onerror="this.style.background='#f0ece8'; this.style.minHeight='160px'">
+            <div class="collage-cell-label">Fig. 1</div>
+          </div>
+          <div class="collage-cell" onclick="openLightbox(palmerFigs, 1)">
+            <img src="/languageswithinlanguages/Palmer2.png" alt="Palmer Figure 2" onerror="this.style.background='#f5eef8'; this.style.minHeight='160px'">
+            <div class="collage-cell-label">Fig. 2</div>
+          </div>
+          <div class="collage-cell" onclick="openLightbox(palmerFigs, 2)">
+            <img src="/languageswithinlanguages/Palmer3.png" alt="Palmer Figure 3" onerror="this.style.background='#eef5f8'; this.style.minHeight='160px'">
+            <div class="collage-cell-label">Fig. 3</div>
+          </div>
+          <div class="collage-cell" onclick="openLightbox(palmerFigs, 3)">
+            <img src="/languageswithinlanguages/Palmer4.png" alt="Palmer Figure 4" onerror="this.style.background='#f8f5ee'; this.style.minHeight='160px'">
+            <div class="collage-cell-label">Fig. 4</div>
+          </div>
+          <div class="collage-cell" onclick="openLightbox(palmerFigs, 4)">
+            <img src="/languageswithinlanguages/Palmer5.png" alt="Palmer Figure 5" onerror="this.style.background='#f8eeee'; this.style.minHeight='160px'">
+            <div class="collage-cell-label">Fig. 5</div>
+          </div>
+        </div>
+        
       </div>
 
       <p>Palmer concludes with a deeper reflection into the greater implications that come with AMS. AMS provides an
@@ -899,22 +1150,93 @@
   </footer>
 
   <script>
+    // Progress bar
     window.addEventListener('scroll', () => {
-      const scrollTop = window.scrollY;
-      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-      document.getElementById('progress-bar').style.width = (scrollTop / docHeight * 100) + '%';
+      const pct = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight) * 100;
+      document.getElementById('progress-bar').style.width = pct + '%';
     });
+   
+    // Term cards
     function toggleTerm(card) {
-      const body = card.querySelector('.term-body');
       card.classList.toggle('open');
-      body.classList.toggle('open');
+      card.querySelector('.term-body').classList.toggle('open');
     }
+   
+    // Debate widget
     function switchDebate(side) {
       document.querySelectorAll('.debate-tab').forEach(t => t.classList.remove('active'));
       document.querySelectorAll('.debate-content').forEach(c => c.classList.remove('active'));
       document.querySelector('.debate-tab.' + side).classList.add('active');
       document.getElementById('debate-' + side).classList.add('active');
     }
+   
+    // Palmer figures — update body strings with your real captions
+    const palmerFigs = [
+      { src: '/languageswithinlanguages/Palmer1.png', label: 'Figure 1 — Palmer (2025)', body: 'Add caption for Palmer Figure 1 here.' },
+      { src: '/languageswithinlanguages/Palmer2.png', label: 'Figure 2 — Palmer (2025)', body: 'Add caption for Palmer Figure 2 here.' },
+      { src: '/languageswithinlanguages/Palmer3.png', label: 'Figure 3 — Palmer (2025)', body: 'Add caption for Palmer Figure 3 here.' },
+      { src: '/languageswithinlanguages/Palmer4.png', label: 'Figure 4 — Palmer (2025)', body: 'Add caption for Palmer Figure 4 here.' },
+      { src: '/languageswithinlanguages/Palmer5.png', label: 'Figure 5 — Palmer (2025)', body: 'Hypothesis 5.8 — Semantic resonance continuity cross-linguistically across semantic domains ranging from emotional statements to metaphors and idioms.' },
+    ];
+   
+    // Lightbox
+    let lbFigs = [], lbIndex = 0;
+   
+    function openLightbox(figs, index) {
+      lbFigs = figs;
+      lbIndex = index;
+      renderLightbox();
+      document.getElementById('lightbox').classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+   
+    function closeLightbox() {
+      document.getElementById('lightbox').classList.remove('active');
+      document.body.style.overflow = '';
+    }
+   
+    function handleLightboxClick(e) {
+      if (e.target === document.getElementById('lightbox')) closeLightbox();
+    }
+   
+    function renderLightbox() {
+      const fig = lbFigs[lbIndex];
+      document.getElementById('lightbox-img').src = fig.src;
+      document.getElementById('lightbox-img').alt = fig.label;
+      document.getElementById('lightbox-label').textContent = fig.label;
+      document.getElementById('lightbox-body').textContent = fig.body;
+   
+      const nav = document.getElementById('lightbox-nav');
+      nav.innerHTML = '';
+      if (lbFigs.length > 1) {
+        const prev = document.createElement('button');
+        prev.className = 'lb-arrow';
+        prev.textContent = '‹';
+        prev.onclick = (e) => { e.stopPropagation(); lbIndex = (lbIndex - 1 + lbFigs.length) % lbFigs.length; renderLightbox(); };
+        nav.appendChild(prev);
+   
+        lbFigs.forEach((_, i) => {
+          const dot = document.createElement('button');
+          dot.className = 'lb-nav-dot' + (i === lbIndex ? ' active' : '');
+          dot.onclick = (e) => { e.stopPropagation(); lbIndex = i; renderLightbox(); };
+          nav.appendChild(dot);
+        });
+   
+        const next = document.createElement('button');
+        next.className = 'lb-arrow';
+        next.textContent = '›';
+        next.onclick = (e) => { e.stopPropagation(); lbIndex = (lbIndex + 1) % lbFigs.length; renderLightbox(); };
+        nav.appendChild(next);
+      }
+    }
+   
+    // Keyboard support
+    document.addEventListener('keydown', (e) => {
+      if (!document.getElementById('lightbox').classList.contains('active')) return;
+      if (e.key === 'Escape') closeLightbox();
+      if (e.key === 'ArrowRight' && lbFigs.length > 1) { lbIndex = (lbIndex + 1) % lbFigs.length; renderLightbox(); }
+      if (e.key === 'ArrowLeft'  && lbFigs.length > 1) { lbIndex = (lbIndex - 1 + lbFigs.length) % lbFigs.length; renderLightbox(); }
+    });
   </script>
 </body>
 
