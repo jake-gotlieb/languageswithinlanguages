@@ -1,479 +1,920 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Languages within Languages — Jake Gotlieb</title>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,700;0,9..144,900;1,9..144,400&family=DM+Sans:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
-<style>
-  :root {
-    --ink: #1a1220;
-    --cream: #faf6ef;
-    --coral: #e8533a;
-    --teal: #2a9d8f;
-    --violet: #6b4fbb;
-    --gold: #f4a261;
-    --sky: #48cae4;
-    --pink: #e07ea8;
-    --light-teal: #e8f7f5;
-    --light-violet: #f0ecfa;
-    --light-coral: #fdf0ee;
-    --border: #ddd5c8;
-  }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Languages within Languages — Jake Gotlieb</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Georgia:ital,opsz,wght@0,9..144,300;0,9..144,700;0,9..144,900;1,9..144,400&family=DM+Sans:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --ink: #1a1220;
+      --cream: #faf6ef;
+      --coral: #e8533a;
+      --teal: #2a9d8f;
+      --violet: #6b4fbb;
+      --gold: #f4a261;
+      --sky: #48cae4;
+      --pink: #e07ea8;
+      --light-teal: #e8f7f5;
+      --light-violet: #f0ecfa;
+      --light-coral: #fdf0ee;
+      --border: #ddd5c8;
+    }
 
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  html { scroll-behavior: smooth; }
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-  body {
-    background: var(--cream);
-    color: var(--ink);
-    font-family: 'DM Sans', sans-serif;
-    font-size: 17px;
-    line-height: 1.75;
-    overflow-x: hidden;
-  }
+    html {
+      scroll-behavior: smooth;
+    }
 
-  #progress-bar {
-    position: fixed; top: 0; left: 0;
-    height: 3px;
-    background: linear-gradient(90deg, var(--teal), var(--violet), var(--coral));
-    width: 0%; z-index: 200; transition: width 0.1s;
-  }
+    body {
+      background: var(--cream);
+      color: var(--ink);
+      font-family: 'Georgia', sans-serif;
+      font-size: 17px;
+      line-height: 1.75;
+      overflow-x: hidden;
+    }
 
-  header {
-    background: var(--ink);
-    color: var(--cream);
-    padding: 3.5rem 2rem 2.8rem;
-    position: relative; overflow: hidden;
-  }
-  header::before {
-    content: ''; position: absolute; inset: 0;
-    background: radial-gradient(ellipse at 80% 50%, #6b4fbb44 0%, transparent 60%),
-                radial-gradient(ellipse at 20% 80%, #2a9d8f33 0%, transparent 50%);
-  }
-  .header-inner { max-width: 860px; margin: 0 auto; position: relative; }
-  .header-label {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.72rem; letter-spacing: 0.18em; text-transform: uppercase;
-    color: var(--gold); margin-bottom: 1.2rem;
-  }
-  h1 {
-    font-family: 'Fraunces', serif;
-    font-size: clamp(2.4rem, 6vw, 4rem);
-    font-weight: 900; line-height: 1.08; margin-bottom: 1rem;
-  }
-  h1 em { font-style: italic; color: var(--sky); }
-  .byline { font-size: 0.9rem; color: #b0a8c0; margin-top: 1rem; }
-  .byline strong { color: var(--cream); }
+    #progress-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--ink), var(--sky), var(--coral));
+      width: 0%;
+      z-index: 200;
+      transition: width 0.1s;
+    }
 
-  nav {
-    background: var(--ink);
-    border-top: 1px solid #ffffff18;
-    position: sticky; top: 0; z-index: 100;
-  }
-  .nav-inner {
-    max-width: 860px; margin: 0 auto;
-    display: flex; overflow-x: auto; scrollbar-width: none;
-  }
-  .nav-inner::-webkit-scrollbar { display: none; }
-  nav a {
-    color: #9990b0; text-decoration: none;
-    font-size: 0.8rem; font-weight: 500; letter-spacing: 0.04em;
-    padding: 0.75rem 1.1rem; white-space: nowrap;
-    transition: color 0.2s; border-bottom: 2px solid transparent;
-  }
-  nav a:hover { color: var(--cream); border-bottom-color: var(--coral); }
+    header {
+      background: var(--ink);
+      color: var(--coral);
+      padding: 3.5rem 2rem 2.8rem;
+      position: relative;
+      overflow: hidden;
+    }
 
-  main { max-width: 860px; margin: 0 auto; padding: 3rem 2rem 5rem; }
-  section { margin-bottom: 4rem; }
+    header::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at 80% 50%, #326E65 0%, transparent 40%),
+        radial-gradient(ellipse at 20% 80%, #11D5F5 0%, transparent 30%);
+    }
 
-  .section-label {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.68rem; letter-spacing: 0.18em;
-    text-transform: uppercase; margin-bottom: 0.6rem;
-  }
-  h2 {
-    font-family: 'Fraunces', serif;
-    font-size: clamp(1.5rem, 3.5vw, 2rem);
-    font-weight: 700; line-height: 1.2; margin-bottom: 1.5rem;
-  }
-  h3 {
-    font-family: 'Fraunces', serif;
-    font-size: 1.15rem; font-weight: 700; margin: 2rem 0 0.8rem;
-  }
-  p { margin-bottom: 1.1rem; }
+    .header-inner {
+      max-width: 860px;
+      margin: 0 auto;
+      position: relative;
+    }
 
-  /* TERM CARDS */
-  .term-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 1rem; margin: 1.5rem 0;
-  }
-  .term-card {
-    border-radius: 12px; border: 1.5px solid var(--border);
-    overflow: hidden; cursor: pointer;
-    transition: box-shadow 0.2s, transform 0.2s;
-  }
-  .term-card:hover { box-shadow: 0 6px 24px #0000001a; transform: translateY(-2px); }
-  .term-header {
-    padding: 0.9rem 1.1rem;
-    display: flex; justify-content: space-between; align-items: center;
-    font-weight: 600; font-size: 0.9rem;
-  }
-  .term-header .plus { font-size: 1.2rem; font-weight: 300; transition: transform 0.3s; flex-shrink: 0; }
-  .term-card.open .plus { transform: rotate(45deg); }
-  .term-body { max-height: 0; overflow: hidden; transition: max-height 0.4s cubic-bezier(0.4,0,0.2,1); font-size: 0.88rem; line-height: 1.6; }
-  .term-body.open { max-height: 300px; }
-  .term-body-inner { padding: 0 1.1rem 1rem; }
+    .header-label {
+      font-family: 'Calibri', monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1.2rem;
+    }
 
-  .tc-teal .term-header { background: var(--light-teal); color: #1a6b62; }
-  .tc-teal .term-body { background: #f2fbf9; color: #1e524d; border-top: 1px solid #c5eae6; }
-  .tc-violet .term-header { background: var(--light-violet); color: #4a2f9a; }
-  .tc-violet .term-body { background: #f7f4fd; color: #3d2880; border-top: 1px solid #d5c8f5; }
-  .tc-coral .term-header { background: var(--light-coral); color: #b33a24; }
-  .tc-coral .term-body { background: #fef5f3; color: #8c2e1c; border-top: 1px solid #f5c5bc; }
-  .tc-gold .term-header { background: #fef8ee; color: #8a5a0a; }
-  .tc-gold .term-body { background: #fffbf3; color: #6e4708; border-top: 1px solid #f5dba8; }
-  .tc-sky .term-header { background: #edf9fc; color: #1a6e82; }
-  .tc-sky .term-body { background: #f5fbfd; color: #155a6a; border-top: 1px solid #b8e8f5; }
-  .tc-pink .term-header { background: #fdeef5; color: #8c3060; }
-  .tc-pink .term-body { background: #fef6fa; color: #72254d; border-top: 1px solid #f0c0d8; }
-  .tc-ink .term-header { background: #ece9f0; color: #2a1f40; }
-  .tc-ink .term-body { background: #f5f3f8; color: #2a1f40; border-top: 1px solid #d0c8e0; }
+    h1 {
+      font-family: 'Georgia', serif;
+      font-size: clamp(2.4rem, 6vw, 4rem);
+      font-weight: 900;
+      line-height: 1.08;
+      margin-bottom: 1rem;
+    }
 
-  /* EXAMPLE BOX */
-  .example-box {
-    background: var(--ink); color: var(--cream);
-    border-radius: 10px; padding: 1.2rem 1.5rem; margin: 1rem 0;
-    font-family: 'DM Mono', monospace; font-size: 0.88rem; line-height: 1.6;
-  }
-  .example-box .ex-label {
-    font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase;
-    color: var(--gold); margin-bottom: 0.5rem;
-  }
+    h1 em {
+      font-style: italic;
+      color: var(--cream);
+    }
 
-  /* FIGURE BOX */
-  .figure-box {
-    border: 2px dashed var(--border); border-radius: 12px;
-    padding: 2rem; text-align: center; margin: 1.5rem 0;
-    background: #faf6ef; color: #9a8f80;
-  }
-  .figure-box .fig-icon { font-size: 2.5rem; margin-bottom: 0.5rem; }
-  .figure-box .fig-caption {
-    font-size: 0.8rem; font-family: 'DM Mono', monospace;
-    letter-spacing: 0.06em; margin-top: 0.5rem; color: #aaa;
-  }
+    .byline {
+      font-size: 0.9rem;
+      color: #b0a8c0;
+      margin-top: 1rem;
+    }
 
-  /* FINDINGS LIST */
-  .findings { list-style: none; margin: 1rem 0; display: flex; flex-direction: column; gap: 0.6rem; }
-  .findings li { display: flex; gap: 0.8rem; font-size: 0.95rem; align-items: flex-start; }
-  .findings li::before {
-    content: attr(data-n);
-    font-family: 'Fraunces', serif; font-weight: 900; font-size: 1.1rem;
-    flex-shrink: 0; margin-top: -0.05em;
-  }
+    .byline strong {
+      color: var(--cream);
+    }
 
-  /* ALIGNMENT GRID */
-  .alignment-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.8rem; margin: 1.2rem 0; }
-  .alignment-cell { border-radius: 10px; padding: 1rem; text-align: center; }
-  .alignment-cell .score { font-family: 'Fraunces', serif; font-size: 1.4rem; font-weight: 900; }
-  .alignment-cell .alabel { font-size: 0.8rem; font-weight: 600; margin-top: 0.3rem; }
+    nav {
+      background: var(--ink);
+      border-top: 1px solid #ffffff18;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
 
-  /* DEBATE WIDGET */
-  .debate-widget { border-radius: 14px; overflow: hidden; border: 1.5px solid var(--border); margin: 2.5rem 0; }
-  .debate-tabs { display: flex; }
-  .debate-tab {
-    flex: 1; padding: 0.9rem; font-weight: 600; font-size: 0.88rem;
-    text-align: center; cursor: pointer; transition: all 0.2s;
-    border: none; font-family: 'DM Sans', sans-serif;
-  }
-  .debate-tab.pro { background: #e2f5f2; color: #1a6b62; }
-  .debate-tab.pro.active { background: var(--teal); color: white; }
-  .debate-tab.con { background: #fbeae7; color: #b33a24; }
-  .debate-tab.con.active { background: var(--coral); color: white; }
-  .debate-content { padding: 1.5rem; font-size: 0.92rem; display: none; }
-  .debate-content.active { display: block; }
+    .nav-inner {
+      max-width: 860px;
+      margin: 0 auto;
+      display: flex;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
 
-  /* DIVIDER */
-  .divider { display: flex; align-items: center; gap: 1rem; margin: 3rem 0; }
-  .divider::before, .divider::after { content: ''; flex: 1; height: 1px; background: var(--border); }
-  .divider span {
-    font-family: 'DM Mono', monospace; font-size: 0.7rem;
-    letter-spacing: 0.15em; text-transform: uppercase; color: #bbb;
-  }
+    .nav-inner::-webkit-scrollbar {
+      display: none;
+    }
 
-  /* REFERENCES */
-  .ref-list { list-style: none; display: flex; flex-direction: column; gap: 0.8rem; }
-  .ref-list li { font-size: 0.85rem; padding-left: 2rem; text-indent: -2rem; line-height: 1.6; color: #4a4060; }
-  .ref-list a { color: var(--violet); text-decoration: none; }
-  .ref-list a:hover { text-decoration: underline; }
+    nav a {
+      font-family: 'Georgia', serif;
+      color: var(--cream);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      padding: 0.75rem 1.1rem;
+      white-space: nowrap;
+      transition: color 0.2s;
+      border-bottom: 2px solid transparent;
+    }
 
-  footer {
-    text-align: center; padding: 2rem; font-size: 0.8rem; color: #aaa;
-    border-top: 1px solid var(--border);
-    font-family: 'DM Mono', monospace; letter-spacing: 0.06em;
-  }
-</style>
+    nav a:hover {
+      color: var(--cream);
+      border-bottom-color: var(--coral);
+    }
+
+    main {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 3rem 2rem 5rem;
+    }
+
+    section {
+      margin-bottom: 4rem;
+    }
+
+    .section-label {
+      font-family: 'Calibri', monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      margin-bottom: 0.6rem;
+    }
+
+    h2 {
+      font-family: 'Georgia', serif;
+      font-size: clamp(1.5rem, 3.5vw, 2rem);
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 1.5rem;
+    }
+
+    h3 {
+      font-family: 'Georgia', serif;
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin: 2rem 0 0.8rem;
+    }
+
+    p {
+      margin-bottom: 1.1rem;
+    }
+
+    /* TERM CARDS */
+    .term-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 1rem;
+      margin: 1.5rem 0;
+    }
+
+    .term-card {
+      border-radius: 12px;
+      border: 1.5px solid var(--border);
+      overflow: hidden;
+      cursor: pointer;
+      transition: box-shadow 0.2s, transform 0.2s;
+    }
+
+    .term-card:hover {
+      box-shadow: 0 6px 24px #0000001a;
+      transform: translateY(-2px);
+    }
+
+    .term-header {
+      padding: 0.9rem 1.1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+
+    .term-header .plus {
+      font-size: 1.2rem;
+      font-weight: 300;
+      transition: transform 0.3s;
+      flex-shrink: 0;
+    }
+
+    .term-card.open .plus {
+      transform: rotate(45deg);
+    }
+
+    .term-body {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      font-size: 0.88rem;
+      line-height: 1.6;
+    }
+
+    .term-body.open {
+      max-height: 300px;
+    }
+
+    .term-body-inner {
+      padding: 0 1.1rem 1rem;
+    }
+
+    .tc-teal .term-header {
+      background: var(--light-teal);
+      color: #1a6b62;
+    }
+
+    .tc-teal .term-body {
+      background: #f2fbf9;
+      color: #1e524d;
+      border-top: 1px solid #c5eae6;
+    }
+
+    .tc-violet .term-header {
+      background: var(--light-violet);
+      color: #4a2f9a;
+    }
+
+    .tc-violet .term-body {
+      background: #f7f4fd;
+      color: #3d2880;
+      border-top: 1px solid #d5c8f5;
+    }
+
+    .tc-coral .term-header {
+      background: var(--light-coral);
+      color: #b33a24;
+    }
+
+    .tc-coral .term-body {
+      background: #fef5f3;
+      color: #8c2e1c;
+      border-top: 1px solid #f5c5bc;
+    }
+
+    .tc-gold .term-header {
+      background: #fef8ee;
+      color: #8a5a0a;
+    }
+
+    .tc-gold .term-body {
+      background: #fffbf3;
+      color: #6e4708;
+      border-top: 1px solid #f5dba8;
+    }
+
+    .tc-sky .term-header {
+      background: #edf9fc;
+      color: #1a6e82;
+    }
+
+    .tc-sky .term-body {
+      background: #f5fbfd;
+      color: #155a6a;
+      border-top: 1px solid #b8e8f5;
+    }
+
+    .tc-pink .term-header {
+      background: #fdeef5;
+      color: #8c3060;
+    }
+
+    .tc-pink .term-body {
+      background: #fef6fa;
+      color: #72254d;
+      border-top: 1px solid #f0c0d8;
+    }
+
+    .tc-ink .term-header {
+      background: #ece9f0;
+      color: #2a1f40;
+    }
+
+    .tc-ink .term-body {
+      background: #f5f3f8;
+      color: #2a1f40;
+      border-top: 1px solid #d0c8e0;
+    }
+
+    /* EXAMPLE BOX */
+    .example-box {
+      background: var(--ink);
+      color: var(--cream);
+      border-radius: 10px;
+      padding: 1.2rem 1.5rem;
+      margin: 1rem 0;
+      font-family: 'Calibri', monospace;
+      font-size: 0.88rem;
+      line-height: 1.6;
+    }
+
+    .example-box .ex-label {
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.5rem;
+    }
+
+    /* FIGURE BOX */
+    .figure-box {
+      border: 2px dashed var(--border);
+      border-radius: 12px;
+      padding: 2rem;
+      text-align: center;
+      margin: 1.5rem 0;
+      background: #faf6ef;
+      color: #9a8f80;
+    }
+
+    .figure-box .fig-icon {
+      font-size: 2.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .figure-box .fig-caption {
+      font-size: 0.8rem;
+      font-family: 'Calibri', monospace;
+      letter-spacing: 0.06em;
+      margin-top: 0.5rem;
+      color: #aaa;
+    }
+
+    /* FINDINGS LIST */
+    .findings {
+      list-style: none;
+      margin: 1rem 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+
+    .findings li {
+      display: flex;
+      gap: 0.8rem;
+      font-size: 0.95rem;
+      align-items: flex-start;
+    }
+
+    .findings li::before {
+      content: attr(data-n);
+      font-family: 'Georgia', serif;
+      font-weight: 900;
+      font-size: 1.1rem;
+      flex-shrink: 0;
+      margin-top: -0.05em;
+    }
+
+    /* ALIGNMENT GRID */
+    .alignment-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.8rem;
+      margin: 1.2rem 0;
+    }
+
+    .alignment-cell {
+      border-radius: 10px;
+      padding: 1rem;
+      text-align: center;
+    }
+
+    .alignment-cell .score {
+      font-family: 'Georgia', serif;
+      font-size: 1.4rem;
+      font-weight: 900;
+    }
+
+    .alignment-cell .alabel {
+      font-size: 0.8rem;
+      font-weight: 600;
+      margin-top: 0.3rem;
+    }
+
+    /* DEBATE WIDGET */
+    .debate-widget {
+      border-radius: 14px;
+      overflow: hidden;
+      border: 1.5px solid var(--border);
+      margin: 2.5rem 0;
+    }
+
+    .debate-tabs {
+      display: flex;
+    }
+
+    .debate-tab {
+      flex: 1;
+      padding: 0.9rem;
+      font-weight: 600;
+      font-size: 0.88rem;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s;
+      border: none;
+      font-family: 'Roboto', sans-serif;
+    }
+
+    .debate-tab.pro {
+      background: #e2f5f2;
+      color: #1a6b62;
+    }
+
+    .debate-tab.pro.active {
+      background: var(--teal);
+      color: white;
+    }
+
+    .debate-tab.con {
+      background: #fbeae7;
+      color: #b33a24;
+    }
+
+    .debate-tab.con.active {
+      background: var(--coral);
+      color: white;
+    }
+
+    .debate-content {
+      padding: 1.5rem;
+      font-size: 0.92rem;
+      display: none;
+    }
+
+    .debate-content.active {
+      display: block;
+    }
+
+    /* DIVIDER */
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin: 3rem 0;
+    }
+
+    .divider::before,
+    .divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    .divider span {
+      font-family: 'Calibri', monospace;
+      font-size: 0.9rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--coral);
+    }
+
+    /* REFERENCES */
+    .ref-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+    }
+
+    .ref-list li {
+      font-size: 0.85rem;
+      padding-left: 2rem;
+      text-indent: -2rem;
+      line-height: 1.6;
+      color: #4a4060;
+    }
+
+    .ref-list a {
+      color: var(--violet);
+      text-decoration: none;
+    }
+
+    .ref-list a:hover {
+      text-decoration: underline;
+    }
+
+    footer {
+      text-align: center;
+      padding: 2rem;
+      font-size: 0.8rem;
+      color: #aaa;
+      border-top: 1px solid var(--border);
+      font-family: 'Calibri', monospace;
+      letter-spacing: 0.06em;
+    }
+  </style>
 </head>
+
 <body>
 
-<div id="progress-bar"></div>
+  <div id="progress-bar"></div>
 
-<header>
-  <div class="header-inner">
-    <p class="header-label">Computational Linguistics · Survey Article · 2025</p>
-    <h1>Languages <em>within</em> Languages</h1>
-    <p style="font-family:'Fraunces',serif; font-size:1.15rem; font-weight:300; font-style:italic; color:#c8c0d8; margin-top:0.3rem;">
-      Recent Scholarship Integrating Linguistic Relativity and LLMs
-    </p>
-    <p class="byline">by <strong>Jake Gotlieb</strong></p>
-  </div>
-</header>
+  <header>
+    <div class="header-inner">
+      <p class="header-label">NEUR151 · Survey Article · May, 2026</p>
+      <h1>Languages <em>within</em> Languages</h1>
+      <p
+        style="font-family:'Georgia',serif; font-size:1.15rem; font-weight:300; font-style:italic; color:#FFFFFF; margin-top:0.3rem;">
+        Recent Scholarship Integrating Linguistic Relativity and LLMs
+      </p>
+      <p class="byline"><strong>by Jake Gotlieb</strong></p>
+    </div>
+  </header>
 
-<nav>
-  <div class="nav-inner">
-    <a href="#background">Background</a>
-    <a href="#terminology">Terminology</a>
-    <a href="#gao">Gao et al.</a>
-    <a href="#ray">Ray</a>
-    <a href="#kauf">Kauf</a>
-    <a href="#dubey">Dubey</a>
-    <a href="#palmer">Palmer</a>
-    <a href="#conclusions">Conclusions</a>
-    <a href="#references">References</a>
-  </div>
-</nav>
+  <nav>
+    <div class="nav-inner">
+      <a href="#background">Background</a>
+      <a href="#terminology">Terminology</a>
+      <a href="#gao">Gao et al.</a>
+      <a href="#ray">Ray</a>
+      <a href="#kauf">Kauf</a>
+      <a href="#dubey">Dubey</a>
+      <a href="#palmer">Palmer</a>
+      <a href="#conclusions">Conclusions</a>
+      <a href="#references">References</a>
+    </div>
+  </nav>
 
-<main>
+  <main>
 
-  <!-- BACKGROUND -->
-  <section id="background">
-    <p class="section-label" style="color:var(--teal)">§ 01 — Background</p>
-    <h2>Background</h2>
+    <!-- BACKGROUND -->
+    <section id="background">
+      <p class="section-label" style="color:var(--teal)">01 — Background</p>
+      <h2>Background</h2>
 
-    <h3>What is computational neuroscience?</h3>
-    <p>Computational Neuroscience at its heart is the intersection between the fields of neuroscience and computer science, incorporating elements from mathematics and physics. Computational neuroscientists are most concerned with how to study the behavior and functions of the brain using computer models, specifically neural networks.</p>
+      <h3>What is computational neuroscience?</h3>
+      <p>Computational Neuroscience at its heart is the intersection between the fields of neuroscience and computer
+        science, incorporating elements from mathematics and physics. Computational neuroscientists are most concerned
+        with how to study the behavior and functions of the brain using computer models, specifically neural networks.
+      </p>
 
-    <h3>What is linguistic relativity?</h3>
-    <p>Linguistic Relativity, also known as the Sapir-Whorf hypothesis, is a theory that posits that a person's spoken language influences how they think about and conceive of the world. While the original strong version of the hypothesis is not very widely accepted anymore, some studies have shown a weaker form existing cognitively.</p>
-  </section>
+      <h3>What is linguistic relativity?</h3>
+      <p>Linguistic Relativity, also known as the Sapir-Whorf hypothesis, is a theory that posits that a person's spoken
+        language influences how they think about and conceive of the world. While the original strong version of the
+        hypothesis is not very widely accepted anymore, some studies have shown a weaker form existing cognitively.</p>
+    </section>
 
-  <div class="divider"><span>Terminology</span></div>
+    <div class="divider"><span>Terminology</span></div>
 
-  <!-- TERMINOLOGY -->
-  <section id="terminology">
-    <p class="section-label" style="color:var(--violet)">§ 02 — More Terminology</p>
-    <h2>More Terminology</h2>
-    <p>Click any card to expand its definition.</p>
+    <!-- TERMINOLOGY -->
+    <section id="terminology">
+      <p class="section-label" style="color:var(--violet)">02 — More Terminology</p>
+      <h2>More Terminology</h2>
+      <p>Click any card to expand its definition.</p>
 
-    <div class="term-grid">
-      <div class="term-card tc-teal" onclick="toggleTerm(this)">
-        <div class="term-header">Large Language Models (LLMs) <span class="plus">+</span></div>
-        <div class="term-body"><div class="term-body-inner">Large-Language Models (LLMs) are artificial intelligence frameworks that interface with human language by generating and interpreting text.</div></div>
+      <div class="term-grid">
+        <div class="term-card tc-teal" onclick="toggleTerm(this)">
+          <div class="term-header">Large Language Models (LLMs) <span class="plus">+</span></div>
+          <div class="term-body">
+            <div class="term-body-inner">Large-Language Models (LLMs) are artificial intelligence frameworks that
+              interface with human language by generating and interpreting text.</div>
+          </div>
+        </div>
+        <div class="term-card tc-violet" onclick="toggleTerm(this)">
+          <div class="term-header">Reasoning Models <span class="plus">+</span></div>
+          <div class="term-body">
+            <div class="term-body-inner">Reasoning Models are a variety of LLMs that are targeted towards solving
+              logical and mathematical problems by generating a line of reasoning with steps that can be revisited and
+              revised before its output.</div>
+          </div>
+        </div>
+        <div class="term-card tc-coral" onclick="toggleTerm(this)">
+          <div class="term-header">Embedding Space <span class="plus">+</span></div>
+          <div class="term-body">
+            <div class="term-body-inner">Embedding Space is a multi-dimensional vector mapping where a class of items
+              are plotted as vectors based on their semantic similarities, with closeness representing higher
+              similarity.</div>
+          </div>
+        </div>
+        <div class="term-card tc-gold" onclick="toggleTerm(this)">
+          <div class="term-header">Lossy Compression <span class="plus">+</span></div>
+          <div class="term-body">
+            <div class="term-body-inner">Lossy Compression is a method of data compression that reduces data size by
+              eliminating redundant information, usually at the expense of quality.</div>
+          </div>
+        </div>
+        <div class="term-card tc-sky" onclick="toggleTerm(this)">
+          <div class="term-header">Semantic Alignment <span class="plus">+</span></div>
+          <div class="term-body">
+            <div class="term-body-inner">Semantic Alignment is a procedure for accurately mapping conceptually-identical
+              lexical items in one-to-one correspondences across a varied set of data, such as a set of different
+              languages or physical representations.</div>
+          </div>
+        </div>
+        <div class="term-card tc-pink" onclick="toggleTerm(this)">
+          <div class="term-header">Semantic Polarity <span class="plus">+</span></div>
+          <div class="term-body">
+            <div class="term-body-inner">Semantic Polarity refers to the positive or negative orientations that are
+              assigned as vectors to lexical items and their corresponding concepts in an embedding space.</div>
+          </div>
+        </div>
+        <div class="term-card tc-ink" onclick="toggleTerm(this)">
+          <div class="term-header">Semantic Resonance <span class="plus">+</span></div>
+          <div class="term-body">
+            <div class="term-body-inner">Semantic Resonance refers to the phenomenon where words, image and other
+              communicative mediums trigger related information stored in long-term information to create deeper
+              meaning.</div>
+          </div>
+        </div>
       </div>
-      <div class="term-card tc-violet" onclick="toggleTerm(this)">
-        <div class="term-header">Reasoning Models <span class="plus">+</span></div>
-        <div class="term-body"><div class="term-body-inner">Reasoning Models are a variety of LLMs that are targeted towards solving logical and mathematical problems by generating a line of reasoning with steps that can be revisited and revised before its output.</div></div>
+
+      <p style="margin-top:1.5rem;">This relatively newly explored intersection between linguistic relativity and
+        computational neuroscience has led to many interesting research papers by scholars in recent years. This is a
+        survey of five different studies with unique focuses in order to demonstrate how the above background
+        information applies to new cutting-edge research across different social sciences.</p>
+    </section>
+
+    <div class="divider"><span>Applying These Concepts to Scholarly Findings</span></div>
+
+    <!-- GAO ET AL. -->
+    <section id="gao">
+      <p class="section-label" style="color:var(--teal)">03 — Gao et al. (2025)</p>
+      <h2>Under the Shadow of Babel: How Language Shapes Reasoning in LLMs</h2>
+
+      <p>So is the linguistic relativity claim true and different languages cause an LLM to think in a different way?
+        Some researchers from Mohamed bin Zayed University of Artificial Intelligence in Abu Dhabi examined this in
+        their recent paper. This paper looks at English and Mandarin Chinese language data from a semantically aligned
+        dataset BICAUSE in order to examine how each language is processed by an LLM. They constructed this dataset of
+        400 samples in each language through sequential causal chains, linkings of different related events that result
+        in a final outcome (which can be introduced first or last). So an example of this in English that they give is:
+      </p>
+
+      <div class="example-box">
+        <div class="ex-label">Example causal chain (English)</div>
+        "Aroma spreads, due to bread toasts, which originates from toaster heats."
       </div>
-      <div class="term-card tc-coral" onclick="toggleTerm(this)">
-        <div class="term-header">Embedding Space <span class="plus">+</span></div>
-        <div class="term-body"><div class="term-body-inner">Embedding Space is a multi-dimensional vector mapping where a class of items are plotted as vectors based on their semantic similarities, with closeness representing higher similarity.</div></div>
+
+      <p>The authors related 3 main findings from their research:</p>
+
+      <ul class="findings">
+        <li data-n="1." style="color:#1a6b62">English has a typologically balanced distribution of lexical items.
+          In Chinese, LLMs fixate more on sentence-initial connectives (such as 'and so' or 'once') along with causes as opposed to outcomes.</li>
+        <li data-n="2." style="color:#1a6b62">LLMs learned word order structures of causal sentences and overcorrected
+          in applying them in infelicitous contexts.</li>
+        <li data-n="3." style="color:#1a6b62">When surface-form causal structures are learned, LLMs can begin to
+          generalize deeper structure semantic properties and reasoning biases inherent cross-linguistically.</li>
+      </ul>
+    </section>
+
+    <!-- RAY -->
+    <section id="ray">
+      <p class="section-label" style="color:var(--violet)">04 — Ray (2025)</p>
+      <h2>Does Linguistic Relativity Hypothesis Apply on ChatGPT Responses? Yes, It Does.</h2>
+
+      <p>Can this information in support of linguistic relativity be generalized more widely across more than 2
+        languages? Professor Partha Pratim Ray from the department of Computer Applications, Sikkim University in India
+        takes this experiment to a larger scale, investigating how ChatGPT generates responses to stable prompts across
+        13 languages: English, Hindi, Gujarati, Marathi, Urdu, French, Spanish, Portuguese, German, Russian, Chinese,
+        Japanese, and Arabic. To conduct this experiment, Ray created what he called "10 culturally salient prompts"
+        that he fed into ChatGPT-4o for each of the 13 languages. The questions are constructed so that they include
+        near universal concepts like home, love, happiness, and nature:</p>
+
+      <div class="figure-box">
+        <div class="fig-icon">📋</div>
+        <p>Ray's 10 culturally salient prompts</p>
+        <p class="fig-caption">Figure — Insert Ray (2025) prompt table here</p>
       </div>
-      <div class="term-card tc-gold" onclick="toggleTerm(this)">
-        <div class="term-header">Lossy Compression <span class="plus">+</span></div>
-        <div class="term-body"><div class="term-body-inner">Lossy Compression is a method of data compression that reduces data size by eliminating redundant information, usually at the expense of quality.</div></div>
+
+      <p>The data collected from running the prompts through the different languages was then analyzed using tests for
+        semantic alignment and semantic polarity. Further analysis was used to identify statistically significant
+        variance between different languages with a given prompt. Ray's findings show that semantic alignment can be
+        roughly categorized into 3 categories based on similarity (from 0-1); high (&gt;0.90), intermediate
+        (~0.75-0.85), and neutral alignment, each showing varying amounts of semantic polarity.</p>
+
+      <div class="alignment-grid">
+        <div class="alignment-cell" style="background:#e8f7f5;">
+          <div class="score" style="color:var(--teal);">&gt;0.90</div>
+          <div class="alabel" style="color:#1a6b62;">High Alignment</div>
+        </div>
+        <div class="alignment-cell" style="background:#f0ecfa;">
+          <div class="score" style="color:var(--violet);">~0.75–0.85</div>
+          <div class="alabel" style="color:#4a2f9a;">Intermediate</div>
+        </div>
+        <div class="alignment-cell" style="background:#fef8ee;">
+          <div class="score" style="color:var(--gold);">Below</div>
+          <div class="alabel" style="color:#8a5a0a;">Neutral Alignment</div>
+        </div>
       </div>
-      <div class="term-card tc-sky" onclick="toggleTerm(this)">
-        <div class="term-header">Semantic Alignment <span class="plus">+</span></div>
-        <div class="term-body"><div class="term-body-inner">Semantic Alignment is a procedure for accurately mapping conceptually-identical lexical items in one-to-one correspondences across a varied set of data, such as a set of different languages or physical representations.</div></div>
+
+      <p>This evidence, comparing semantic shift both cross-linguistically and across prompts leads to Ray's conclusion
+        that linguistic relativity can hold up in certain LLM contexts.</p>
+    </section>
+
+    <!-- KAUF -->
+    <section id="kauf">
+      <p class="section-label" style="color:var(--coral)">05 — Kauf (2024)</p>
+      <h2>The Relationship Between Linguistic Representations in Biological and Artificial Neural Networks</h2>
+
+      <p>So taking into consideration these findings from Gao et al., is it even valuable to computer model the complex
+        language processing happening biologically? This dissertation by MIT doctorate student, Carina Kauf, gives an
+        overview of the common threads and differences between how human and artificial systems process language. Kauf's
+        thesis revolves around answering 3 questions for evaluating the effectiveness of LLMs in language processing
+        using an mixed-discipline study of computational models, neural imaging and psychological behavioral
+        experiments.</p>
+
+      <ul class="findings">
+        <li data-n="1." style="color:#b33a24">How are linguistic stimuli encoded into the language processing internal
+          representations of an LLM?</li>
+        <li data-n="2." style="color:#b33a24">How are linguistic stimuli encoded into the language processing centers of
+          the brain?</li>
+        <li data-n="3." style="color:#b33a24">How can these two representational systems be meaningfully related?</li>
+      </ul>
+
+      <p>Having answered these questions, Kauf concludes that LLMs and humans both represent linguistic information well
+        enough for the brain to be encoded very accurately with the assistance of computational modeling. Her thesis
+        also provides evidence of semantic information being encoded mostly superficially, meaning humans process
+        language through many interwoven systems of these layers, which LLMs can once again help model, especially when
+        integrated with human cognitive research. This builds really well upon the findings of Gao et al. in
+        establishing the existence of a stable semantic and logical framework that can possibly illuminate the smaller
+        cognitive nuances cross-linguistically.</p>
+    </section>
+
+    <!-- DEBATE WIDGET -->
+    <div class="debate-widget">
+      <div class="debate-tabs">
+        <button class="debate-tab pro active" onclick="switchDebate('pro')">Pro Sapir-Whorf</button>
+        <button class="debate-tab con" onclick="switchDebate('con')">Anti Sapir-Whorf</button>
       </div>
-      <div class="term-card tc-pink" onclick="toggleTerm(this)">
-        <div class="term-header">Semantic Polarity <span class="plus">+</span></div>
-        <div class="term-body"><div class="term-body-inner">Semantic Polarity refers to the positive or negative orientations that are assigned as vectors to lexical items and their corresponding concepts in an embedding space.</div></div>
+      <div class="debate-content active" id="debate-pro">
+        <strong style="font-family:'Georgia',serif; font-size:1rem;">Gao et al. + Ray: language shapes thought</strong>
+        <p style="margin-top:0.6rem;">Both authors here argue that outputs of LLMs support variance in semantic alignment and reasoning biases cross-linguistically. Language therefore shapes thought, supporting the weak Sapir-Whorf hypothesis at minimum.</p>
       </div>
-      <div class="term-card tc-ink" onclick="toggleTerm(this)">
-        <div class="term-header">Semantic Resonance <span class="plus">+</span></div>
-        <div class="term-body"><div class="term-body-inner">Semantic Resonance refers to the phenomenon where words, image and other communicative mediums trigger related information stored in long-term information to create deeper meaning.</div></div>
+      <div class="debate-content" id="debate-con">
+        <strong style="font-family:'Georgia',serif; font-size:1rem;">Dubey + Palmer: thought shapes 
+          language</strong>
+        <p style="margin-top:0.6rem;">Both authors here create frameworks that invert the Sapir-Whorf hypothesis, instead relying on a layer of stable pre-linguistic meaning that is then transformed into an output language layer.</p>
       </div>
     </div>
 
-    <p style="margin-top:1.5rem;">This relatively newly explored intersection between linguistic relativity and computational neuroscience has led to many interesting research papers by scholars in recent years. This is a survey of five different studies with unique focuses in order to demonstrate how the above background information applies to new cutting-edge research across different social sciences.</p>
-  </section>
+    <!-- DUBEY -->
+    <section id="dubey">
+      <p class="section-label" style="color:var(--gold)">06 — Dubey (2025)</p>
+      <h2>Language as Lossy Compression: A Multilingual Framework for Cognition and Artificial Intelligence</h2>
 
-  <div class="divider"><span>Applying These Concepts to Scholarly Findings</span></div>
+      <p>The scholarly work so far has mainly been in support of at least some weak form of the Sapir-Whorf hypothesis,
+        however some very newly published work by independent researcher Akshat Dubey is trying to push back with a
+        diametrically-opposed theory of language as lossy compression. As Dubey explains it, all LLMs often struggle
+        with arithmetic while succeeding with generating code as well as creative and technical prose. This, he argues,
+        is because language is inherently a compressed form of layer X, what Dubey calls "pre-linguistic cognition"
+        which stores logical and mathematical reasoning. That more symbolic information is lost during compression, so
+        therefore accessing these layers in X isn't communicable with natural language. Dubey refers to this as the
+        inverse of the Sapir-Whorf claim: language doesn't shape thought, thought shapes language. This concept is
+        illustrated nicely by figure 1 which uses a really thoughtful analogy, comparing layer X to a raw sound wave
+        with different compression algorithms yielding different output patterns in layer L:</p>
 
-  <!-- GAO ET AL. -->
-  <section id="gao">
-    <p class="section-label" style="color:var(--teal)">§ 03 — Gao et al. (2025)</p>
-    <h2>Under the Shadow of Babel: How Language Shapes Reasoning in LLMs</h2>
-
-    <p>So is the linguistic relativity claim true and different languages cause an LLM to think in a different way? Some researchers from Mohamed bin Zayed University of Artificial Intelligence in Abu Dhabi examined this in their recent paper. This paper looks at English and Mandarin Chinese language data from a semantically aligned dataset BICAUSE in order to examine how each language is processed by an LLM. They constructed this dataset of 400 samples in each language through sequential causal chains, linkings of different related events that result in a final outcome (which can be introduced first or last). So an example of this in English that they give is:</p>
-
-    <div class="example-box">
-      <div class="ex-label">Example causal chain (English)</div>
-      "Aroma spreads, due to bread toasts, which originates from toaster heats."
-    </div>
-
-    <p>The authors related 3 main findings from their research:</p>
-
-    <ul class="findings">
-      <li data-n="1." style="color:#1a6b62">English has a typologically balanced distribution of lexical items and . In Chinese, LLMs fixate more on sentence-initial connectives (such as 'and so' or 'once') as well as causes as opposed to outcomes.</li>
-      <li data-n="2." style="color:#1a6b62">LLMs learned word order structures of causal sentences and overcorrected in applying them in infelicitous contexts.</li>
-      <li data-n="3." style="color:#1a6b62">When surface-form causal structures are learned, LLMs can begin to generalize deeper structure semantic properties and reasoning biases inherent cross-linguistically.</li>
-    </ul>
-  </section>
-
-  <!-- RAY -->
-  <section id="ray">
-    <p class="section-label" style="color:var(--violet)">§ 04 — Ray (2025)</p>
-    <h2>Does Linguistic Relativity Hypothesis Apply on ChatGPT Responses? Yes, It Does.</h2>
-
-    <p>Can this information in support of linguistic relativity be generalized more widely across more than 2 languages? Professor Partha Pratim Ray from the department of Computer Applications, Sikkim University in India takes this experiment to a larger scale, investigating how ChatGPT generates responses to stable prompts across 13 languages: English, Hindi, Gujarati, Marathi, Urdu, French, Spanish, Portuguese, German, Russian, Chinese, Japanese, and Arabic. To conduct this experiment, Ray created what he called "10 culturally salient prompts" that he fed into ChatGPT-4o for each of the 13 languages. The questions are constructed so that they include near universal concepts like home, love, happiness, and nature:</p>
-
-    <div class="figure-box">
-      <div class="fig-icon">📋</div>
-      <p>Ray's 10 culturally salient prompts</p>
-      <p class="fig-caption">Figure — Insert Ray (2025) prompt table here</p>
-    </div>
-
-    <p>The data collected from running the prompts through the different languages was then analyzed using tests for semantic alignment and semantic polarity. Further analysis was used to identify statistically significant variance between different languages with a given prompt. Ray's findings show that semantic alignment can be roughly categorized into 3 categories based on similarity (from 0-1); high (&gt;0.90), intermediate (~0.75-0.85), and neutral alignment, each showing varying amounts of semantic polarity.</p>
-
-    <div class="alignment-grid">
-      <div class="alignment-cell" style="background:#e8f7f5;">
-        <div class="score" style="color:var(--teal);">&gt;0.90</div>
-        <div class="alabel" style="color:#1a6b62;">High Alignment</div>
+      <div class="figure-box">
+        <div class="fig-icon">🎵</div>
+        <p>Figure 1 — Layer X as a raw sound wave; different compression algorithms yield different output patterns in
+          layer L</p>
+        <p class="fig-caption">Figure 1 — Insert Dubey (2025) compression diagram here</p>
       </div>
-      <div class="alignment-cell" style="background:#f0ecfa;">
-        <div class="score" style="color:var(--violet);">~0.75–0.85</div>
-        <div class="alabel" style="color:#4a2f9a;">Intermediate</div>
+
+      <p>Dubey then uses his theory to make a set of 5 predictions about how AI systems would perform as a result. A
+        prediction he hinted at from the beginning was that LLMs would excel at layer L tasks like code generation and
+        writing style transfer, but struggle with layer X tasks like mathematical proofs, strategic gaming, and
+        producing actually novel creative items. Additionally, examining reasoning task performances
+        cross-linguistically, the differentiation in performance comes from "compression mismatches" rather than how
+        hard the task is.</p>
+    </section>
+
+    <!-- PALMER -->
+    <section id="palmer">
+      <p class="section-label" style="color:var(--pink)">07 — Palmer (2025)</p>
+      <h2>The Agnostic Meaning Substrate (AMS): A Theoretical Framework for Emergent Meaning in Large Language Models
+      </h2>
+
+      <p>Russ Palmer, another independent researcher, introduces his "agnostic meaning substrate (AMS)" a really similar
+        conceptual framework to Dubey that seeks to prove the opposite of the Sapir-Whorf hypothesis. This is especially
+        fascinating, as both authors reach very similar conclusions despite not citing each other's work. Palmer defines
+        AMS as, "a latent, non-symbolic structure within large language models where conceptual meaning stabilizes
+        independently of any specific human language, culture, or syntax." Differently from Dubey, Palmer does not use
+        AMS to situate logical reasoning in an equivalent layer X, however there is still a deeper structure where. To
+        explain the theory, Palmer lays out a very detailed series of 20 hypotheses to demonstrate stable semantic and
+        analogical structures in different languages through a series of reasoning tests for LLMs. Hypothesis 5.8, for
+        example, looks at semantic resonance continuity cross-linguistically in different semantic domains ranging from
+        emotional statements to metaphors and idioms:</p>
+
+      <div class="figure-box">
+        <div class="fig-icon">🕸️</div>
+        <p>Hypothesis 5.8 — Semantic resonance continuity cross-linguistically across semantic domains ranging from
+          emotional statements to metaphors and idioms</p>
+        <p class="fig-caption">Figure — Insert Palmer (2025) Hypothesis 5.8 diagram here</p>
       </div>
-      <div class="alignment-cell" style="background:#fef8ee;">
-        <div class="score" style="color:var(--gold);">Below</div>
-        <div class="alabel" style="color:#8a5a0a;">Neutral Alignment</div>
-      </div>
-    </div>
 
-    <p>This evidence, comparing semantic shift both cross-linguistically and across prompts leads to Ray's conclusion that linguistic relativity can hold up in certain LLM contexts.</p>
-  </section>
+      <p>Palmer concludes with a deeper reflection into the greater implications that come with AMS. AMS provides an
+        understanding how multilingual LLMs work from a shared, stabilized semantic background is important for
+        conceptualizing how meaning is formed coherently in dynamical computer systems.</p>
+    </section>
 
-  <!-- KAUF -->
-  <section id="kauf">
-    <p class="section-label" style="color:var(--coral)">§ 05 — Kauf (2024)</p>
-    <h2>The Relationship Between Linguistic Representations in Biological and Artificial Neural Networks</h2>
+    <div class="divider"><span>Conclusions</span></div>
 
-    <p>So taking into consideration these findings from Gao et al., is it even valuable to computer model the complex language processing happening biologically? This dissertation by MIT doctorate student, Carina Kauf, gives an overview of the common threads and differences between how human and artificial systems process language. Kauf's thesis revolves around answering 3 questions for evaluating the effectiveness of LLMs in language processing using an mixed-discipline study of computational models, neural imaging and psychological behavioral experiments.</p>
+    <!-- CONCLUSIONS -->
+    <section id="conclusions">
+      <p class="section-label" style="color:var(--ink)">08 — Conclusions</p>
+      <h2>Conclusions</h2>
 
-    <ul class="findings">
-      <li data-n="1." style="color:#b33a24">How are linguistic stimuli encoded into the language processing internal representations of an LLM?</li>
-      <li data-n="2." style="color:#b33a24">How are linguistic stimuli encoded into the language processing centers of the brain?</li>
-      <li data-n="3." style="color:#b33a24">How can these two representational systems be meaningfully related?</li>
-    </ul>
+      <p>This concludes a brief survey of the state of the linguistic relativity in computational neuroscience. The
+        Sapir-Whorf hypothesis is still being supported and challenged in many interesting and novel ways, especially
+        now that LLMs are integrated, providing a fertile testing ground for studying human language tendencies in a
+        vacuum. The most important takeaway from this literature review is that this is still a very new field of
+        research. Linguists, computer scientists, philosophers and sociologists working as Google data scientists,
+        university professors and independent researchers, all have weighed in with their own experiments and tests
+        involving LLMs.</p>
 
-    <p>Having answered these questions, Kauf concludes that LLMs and humans both represent linguistic information well enough for the brain to be encoded very accurately with the assistance of computational modeling. Her thesis also provides evidence of semantic information being encoded mostly superficially, meaning humans process language through many interwoven systems of these layers, which LLMs can once again help model, especially when integrated with human cognitive research. This builds really well upon the findings of Gao et al. in establishing the existence of a stable semantic and logical framework that can possibly illuminate the smaller cognitive nuances cross-linguistically.</p>
-  </section>
+      <h3>Future directions of study</h3>
+      <p>So where can future studies go from here? Well, the obvious next step is to keep testing LLM responses as more
+        and more "improved" models come out from ChatGPT, Anthropic, Google, etc. With this could come a bigger surge of
+        models that are trained on smaller languages outside of English, Mandarin, Spanish and other widely spoken
+        languages. There are over 7,000 languages currently spoken, giving researchers a possible plethora of data to
+        back up any arguments in favor of or against Sapir-Whorf.</p>
 
-  <!-- DEBATE WIDGET -->
-  <div class="debate-widget">
-    <div class="debate-tabs">
-      <button class="debate-tab pro active" onclick="switchDebate('pro')">🟢 Pro Sapir-Whorf</button>
-      <button class="debate-tab con" onclick="switchDebate('con')">🔴 Anti Sapir-Whorf</button>
-    </div>
-    <div class="debate-content active" id="debate-pro">
-      <strong style="font-family:'Fraunces',serif; font-size:1rem;">Gao et al. + Ray: linguistic relativity holds in LLM contexts</strong>
-      <p style="margin-top:0.6rem;">Both studies provide empirical evidence that the language an LLM operates in shapes its semantic outputs and reasoning patterns — supporting at least a weak form of the Sapir-Whorf hypothesis.</p>
-    </div>
-    <div class="debate-content" id="debate-con">
-      <strong style="font-family:'Fraunces',serif; font-size:1rem;">Dubey + Palmer: language is downstream of thought</strong>
-      <p style="margin-top:0.6rem;">Both frameworks, developed independently without citing each other, posit a pre-linguistic or language-agnostic layer where meaning actually stabilizes — inverting the Sapir-Whorf claim entirely.</p>
-    </div>
-  </div>
+      <h3>Limiting factors at play</h3>
+      <p>There is no established subfield exclusively studying language relativity, the mind, and computers, so it makes
+        sense that the papers on this subject disagree on methodologies and conclusions. As with any new cutting-edge
+        research, especially in the realm of neuroscience, it's also very difficult to confidently make claims without
+        many years of repeated testing. Since LLMs are such a rapidly advancing technology, it may not be long until
+        they start outputting fundamentally different responses semantically to some of these "universals" that
+        researchers posed. So if that's the case, is it fair to still make a comparison with human language, where
+        semantics drift over time but not as quickly?</p>
+    </section>
 
-  <!-- DUBEY -->
-  <section id="dubey">
-    <p class="section-label" style="color:var(--gold)">§ 06 — Dubey (2025)</p>
-    <h2>Language as Lossy Compression: A Multilingual Framework for Cognition and Artificial Intelligence</h2>
+    <div class="divider"><span>References</span></div>
 
-    <p>The scholarly work so far has mainly been in support of at least some weak form of the Sapir-Whorf hypothesis, however some very newly published work by independent researcher Akshat Dubey is trying to push back with a diametrically-opposed theory of language as lossy compression. As Dubey explains it, all LLMs often struggle with arithmetic while succeeding with generating code as well as creative and technical prose. This, he argues, is because language is inherently a compressed form of layer X, what Dubey calls "pre-linguistic cognition" which stores logical and mathematical reasoning. That more symbolic information is lost during compression, so therefore accessing these layers in X isn't communicable with natural language. Dubey refers to this as the inverse of the Sapir-Whorf claim: language doesn't shape thought, thought shapes language. This concept is illustrated nicely by figure 1 which uses a really thoughtful analogy, comparing layer X to a raw sound wave with different compression algorithms yielding different output patterns in layer L:</p>
+    <!-- REFERENCES -->
+    <section id="references">
+      <p class="section-label" style="color:var(--ink)">09 — References</p>
+      <h2>References</h2>
+      <ul class="ref-list">
+        <li>Dubey, A. (2025). <em>Language as lossy compression: A multilingual framework for cognition and artificial
+            intelligence</em>. Zenodo. <a href="https://doi.org/10.5281/ZENODO.18977528"
+            target="_blank">https://doi.org/10.5281/ZENODO.18977528</a></li>
+        <li>Gao, C., Zhang, Y., Gao, L., Xu, Z., Song, Z., Wang, Y., &amp; Chen, X. (2025). Under the shadow of Babel:
+          How language shapes reasoning in LLMs. <em>Findings of the Association for Computational Linguistics: EMNLP
+            2025.</em> <a href="https://aclanthology.org/anthology-files/pdf/findings/2025.findings-emnlp.1321.pdf"
+            target="_blank">https://aclanthology.org/anthology-files/pdf/findings/2025.findings-emnlp.1321.pdf</a></li>
+        <li>Kauf, C. (2024). <em>The relationship between linguistic representations in biological and artificial neural
+            networks</em> (Doctoral dissertation, Massachusetts Institute of Technology). ProQuest Dissertations &amp;
+          Theses. <a
+            href="https://www.proquest.com/dissertations-theses/relationship-between-linguistic-representations/docview/3171186004/se-2"
+            target="_blank">https://www.proquest.com/dissertations-theses/relationship-between-linguistic-representations/docview/3171186004/se-2</a>
+        </li>
+        <li>Palmer, R. (2025). The agnostic meaning substrate (AMS): A theoretical framework for emergent meaning in
+          large language models. <em>PhilPapers.</em> <a href="https://philpapers.org/rec/PALTAM-2"
+            target="_blank">https://philpapers.org/rec/PALTAM-2</a></li>
+        <li>Ray, P. P. (2025). Does linguistic relativity hypothesis apply on ChatGPT responses? Yes, it does.
+          <em>Computational Intelligence, 41</em>(4), e70103. <a href="https://doi.org/10.1111/coin.70103"
+            target="_blank">https://doi.org/10.1111/coin.70103</a></li>
+      </ul>
+    </section>
 
-    <div class="figure-box">
-      <div class="fig-icon">🎵</div>
-      <p>Figure 1 — Layer X as a raw sound wave; different compression algorithms yield different output patterns in layer L</p>
-      <p class="fig-caption">Figure 1 — Insert Dubey (2025) compression diagram here</p>
-    </div>
+  </main>
 
-    <p>Dubey then uses his theory to make a set of 5 predictions about how AI systems would perform as a result. A prediction he hinted at from the beginning was that LLMs would excel at layer L tasks like code generation and writing style transfer, but struggle with layer X tasks like mathematical proofs, strategic gaming, and producing actually novel creative items. Additionally, examining reasoning task performances cross-linguistically, the differentiation in performance comes from "compression mismatches" rather than how hard the task is.</p>
-  </section>
+  <footer>
+    Languages within Languages · Jake Gotlieb · 2026
+  </footer>
 
-  <!-- PALMER -->
-  <section id="palmer">
-    <p class="section-label" style="color:var(--pink)">§ 07 — Palmer (2025)</p>
-    <h2>The Agnostic Meaning Substrate (AMS): A Theoretical Framework for Emergent Meaning in Large Language Models</h2>
-
-    <p>Russ Palmer, another independent researcher, introduces his "agnostic meaning substrate (AMS)" a really similar conceptual framework to Dubey that seeks to prove the opposite of the Sapir-Whorf hypothesis. This is especially fascinating, as both authors reach very similar conclusions despite not citing each other's work. Palmer defines AMS as, "a latent, non-symbolic structure within large language models where conceptual meaning stabilizes independently of any specific human language, culture, or syntax." Differently from Dubey, Palmer does not use AMS to situate logical reasoning in an equivalent layer X, however there is still a deeper structure where. To explain the theory, Palmer lays out a very detailed series of 20 hypotheses to demonstrate stable semantic and analogical structures in different languages through a series of reasoning tests for LLMs. Hypothesis 5.8, for example, looks at semantic resonance continuity cross-linguistically in different semantic domains ranging from emotional statements to metaphors and idioms:</p>
-
-    <div class="figure-box">
-      <div class="fig-icon">🕸️</div>
-      <p>Hypothesis 5.8 — Semantic resonance continuity cross-linguistically across semantic domains ranging from emotional statements to metaphors and idioms</p>
-      <p class="fig-caption">Figure — Insert Palmer (2025) Hypothesis 5.8 diagram here</p>
-    </div>
-
-    <p>Palmer concludes with a deeper reflection into the greater implications that come with AMS. AMS provides an understanding how multilingual LLMs work from a shared, stabilized semantic background is important for conceptualizing how meaning is formed coherently in dynamical computer systems.</p>
-  </section>
-
-  <div class="divider"><span>Conclusions</span></div>
-
-  <!-- CONCLUSIONS -->
-  <section id="conclusions">
-    <p class="section-label" style="color:var(--ink)">§ 08 — Conclusions</p>
-    <h2>Conclusions</h2>
-
-    <p>This concludes a brief survey of the state of the linguistic relativity in computational neuroscience. The Sapir-Whorf hypothesis is still being supported and challenged in many interesting and novel ways, especially now that LLMs are integrated, providing a fertile testing ground for studying human language tendencies in a vacuum. The most important takeaway from this literature review is that this is still a very new field of research. Linguists, computer scientists, philosophers and sociologists working as Google data scientists, university professors and independent researchers, all have weighed in with their own experiments and tests involving LLMs.</p>
-
-    <h3>Future directions of study</h3>
-    <p>So where can future studies go from here? Well, the obvious next step is to keep testing LLM responses as more and more "improved" models come out from ChatGPT, Anthropic, Google, etc. With this could come a bigger surge of models that are trained on smaller languages outside of English, Mandarin, Spanish and other widely spoken languages. There are over 7,000 languages currently spoken, giving researchers a possible plethora of data to back up any arguments in favor of or against Sapir-Whorf.</p>
-
-    <h3>Limiting factors at play</h3>
-    <p>There is no established subfield exclusively studying language relativity, the mind, and computers, so it makes sense that the papers on this subject disagree on methodologies and conclusions. As with any new cutting-edge research, especially in the realm of neuroscience, it's also very difficult to confidently make claims without many years of repeated testing. Since LLMs are such a rapidly advancing technology, it may not be long until they start outputting fundamentally different responses semantically to some of these "universals" that researchers posed. So if that's the case, is it fair to still make a comparison with human language, where semantics drift over time but not as quickly?</p>
-  </section>
-
-  <div class="divider"><span>References</span></div>
-
-  <!-- REFERENCES -->
-  <section id="references">
-    <p class="section-label" style="color:var(--ink)">§ 09 — References</p>
-    <h2>References</h2>
-    <ul class="ref-list">
-      <li>Dubey, A. (2025). <em>Language as lossy compression: A multilingual framework for cognition and artificial intelligence</em>. Zenodo. <a href="https://doi.org/10.5281/ZENODO.18977528" target="_blank">https://doi.org/10.5281/ZENODO.18977528</a></li>
-      <li>Gao, C., Zhang, Y., Gao, L., Xu, Z., Song, Z., Wang, Y., &amp; Chen, X. (2025). Under the shadow of Babel: How language shapes reasoning in LLMs. <em>Findings of the Association for Computational Linguistics: EMNLP 2025.</em> <a href="https://aclanthology.org/anthology-files/pdf/findings/2025.findings-emnlp.1321.pdf" target="_blank">https://aclanthology.org/anthology-files/pdf/findings/2025.findings-emnlp.1321.pdf</a></li>
-      <li>Kauf, C. (2024). <em>The relationship between linguistic representations in biological and artificial neural networks</em> (Doctoral dissertation, Massachusetts Institute of Technology). ProQuest Dissertations &amp; Theses. <a href="https://www.proquest.com/dissertations-theses/relationship-between-linguistic-representations/docview/3171186004/se-2" target="_blank">https://www.proquest.com/dissertations-theses/relationship-between-linguistic-representations/docview/3171186004/se-2</a></li>
-      <li>Palmer, R. (2025). The agnostic meaning substrate (AMS): A theoretical framework for emergent meaning in large language models. <em>PhilPapers.</em> <a href="https://philpapers.org/rec/PALTAM-2" target="_blank">https://philpapers.org/rec/PALTAM-2</a></li>
-      <li>Ray, P. P. (2025). Does linguistic relativity hypothesis apply on ChatGPT responses? Yes, it does. <em>Computational Intelligence, 41</em>(4), e70103. <a href="https://doi.org/10.1111/coin.70103" target="_blank">https://doi.org/10.1111/coin.70103</a></li>
-    </ul>
-  </section>
-
-</main>
-
-<footer>
-  Languages within Languages · Jake Gotlieb · 2025
-</footer>
-
-<script>
-  window.addEventListener('scroll', () => {
-    const scrollTop = window.scrollY;
-    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-    document.getElementById('progress-bar').style.width = (scrollTop / docHeight * 100) + '%';
-  });
-  function toggleTerm(card) {
-    const body = card.querySelector('.term-body');
-    card.classList.toggle('open');
-    body.classList.toggle('open');
-  }
-  function switchDebate(side) {
-    document.querySelectorAll('.debate-tab').forEach(t => t.classList.remove('active'));
-    document.querySelectorAll('.debate-content').forEach(c => c.classList.remove('active'));
-    document.querySelector('.debate-tab.' + side).classList.add('active');
-    document.getElementById('debate-' + side).classList.add('active');
-  }
-</script>
+  <script>
+    window.addEventListener('scroll', () => {
+      const scrollTop = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      document.getElementById('progress-bar').style.width = (scrollTop / docHeight * 100) + '%';
+    });
+    function toggleTerm(card) {
+      const body = card.querySelector('.term-body');
+      card.classList.toggle('open');
+      body.classList.toggle('open');
+    }
+    function switchDebate(side) {
+      document.querySelectorAll('.debate-tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.debate-content').forEach(c => c.classList.remove('active'));
+      document.querySelector('.debate-tab.' + side).classList.add('active');
+      document.getElementById('debate-' + side).classList.add('active');
+    }
+  </script>
 </body>
+
 </html>
