@@ -593,7 +593,7 @@
     .collage-wrap { margin: 1.5rem 0; }
     .collage-grid {
       display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
+      grid-template-columns: 1fr 1fr;
       grid-template-rows: auto auto;
       gap: 6px;
       border-radius: 12px;
@@ -606,11 +606,10 @@
       overflow: hidden;
       background: #f0ece8;
     }
-    .collage-cell:nth-child(1) { grid-row: 1 / 3; grid-column: 1; }
+    .collage-cell:nth-child(1) { grid-row: 1; grid-column: 1; }
     .collage-cell:nth-child(2) { grid-row: 1; grid-column: 2; }
-    .collage-cell:nth-child(3) { grid-row: 2; grid-column: 2; }
-    .collage-cell:nth-child(4) { grid-row: 1; grid-column: 3; }
-    .collage-cell:nth-child(5) { grid-row: 2; grid-column: 3; }
+    .collage-cell:nth-child(3) { grid-row: 2; grid-column: 1; }
+    .collage-cell:nth-child(4) { grid-row: 2; grid-column: 2; }
     .collage-cell img {
       width: 100%; height: 100%;
       object-fit: cover; object-position: top;
@@ -914,7 +913,7 @@
       <div class="collage-wrap">
         <div class="collage-grid">
           <div class="collage-cell" onclick="openLightbox(rayFigs, 0)">
-            <img src="/languageswithinlanguages/Ray1.png" alt="Ray Table 2" onerror="this.style.background='#f0ece8'; this.style.minHeight='160px'">
+            <img src="/languageswithinlanguages/Ray.png" alt="Ray Table 2" onerror="this.style.background='#f0ece8'; this.style.minHeight='160px'">
             <div class="collage-cell-label">Table 2</div>
           </div>
           <div class="collage-cell" onclick="openLightbox(rayFigs, 3)">
@@ -1182,9 +1181,9 @@
 
     const rayFigs = [
       { src: '/languageswithinlanguages/Ray.png', label: 'Table 2 — Ray (2025)', body: 'List of semantic domains included in the hypothesis along with their correlation cross-linguistically.' },
-      { src: '/languageswithinlanguages/Ray2.png', label: 'Figure 13 — Ray (2025)', body: 'Add caption for Palmer Figure 2 here.' },
-      { src: '/languageswithinlanguages/Ray3.png', label: 'Figure 4 — Ray (2025)', body: 'Add caption for Palmer Figure 2 here.' },
       { src: '/languageswithinlanguages/Ray4.png', label: 'Figure 1a — Ray (2025)', body: 'Add caption for Palmer Figure 2 here.' },
+      { src: '/languageswithinlanguages/Ray3.png', label: 'Figure 4 — Ray (2025)', body: 'Add caption for Palmer Figure 2 here.' },
+      { src: '/languageswithinlanguages/Ray2.png', label: 'Figure 13 — Ray (2025)', body: 'Add caption for Palmer Figure 2 here.' },
     ];
    
     // Lightbox
