@@ -911,18 +911,24 @@
         that he fed into ChatGPT-4o for each of the 13 languages. The questions are constructed so that they include
         near universal concepts like home, love, happiness, and nature:</p>
 
-      <div class="fig-wrap">
-        <div class="fig-thumb" onclick="openLightbox([{src:'/languageswithinlanguages/Ray.png', label:'Ray (2025) — Prompt Table', body:'Ray\'s 10 culturally salient prompts fed into ChatGPT-4o across 13 languages, constructed around near-universal concepts like home, love, happiness, and nature.'}], 0)">
-          <img src="/languageswithinlanguages/Ray.png" alt="Ray's 10 culturally salient prompts" onerror="this.style.minHeight='160px'; this.style.background='#f0ece8'">
-          <div class="fig-thumb-label">
-            <span>Ray (2025) — Prompt Table</span>
-            <span class="expand-hint">click to enlarge ⤢</span>
+      <div class="collage-wrap">
+        <div class="collage-grid">
+          <div class="collage-cell" onclick="openLightbox(rayFigs, 0)">
+            <img src="/languageswithinlanguages/Ray1.png" alt="Ray Table 2" onerror="this.style.background='#f0ece8'; this.style.minHeight='160px'">
+            <div class="collage-cell-label">Table 2</div>
           </div>
-        </div>
-        <div class="fig-static-caption">
-          <strong>Figure — Ray (2025)</strong>
-          Ray's 10 culturally salient prompts fed into ChatGPT-4o across 13 languages, constructed around near-universal concepts like home, love, happiness, and nature.
-        </div>
+          <div class="collage-cell" onclick="openLightbox(rayFigs, 3)">
+            <img src="/languageswithinlanguages/Ray4.png" alt="Ray Figure 1a" onerror="this.style.background='#f8f5ee'; this.style.minHeight='160px'">
+            <div class="collage-cell-label">Fig. 1a</div>
+          </div>
+          <div class="collage-cell" onclick="openLightbox(rayFigs, 2)">
+            <img src="/languageswithinlanguages/Ray3.png" alt="Ray Figure 4" onerror="this.style.background='#eef5f8'; this.style.minHeight='160px'">
+            <div class="collage-cell-label">Fig. 4</div>
+          </div>
+          <div class="collage-cell" onclick="openLightbox(rayFigs, 1)">
+            <img src="/languageswithinlanguages/Ray2.png" alt="Ray Figure 13" onerror="this.style.background='#f5eef8'; this.style.minHeight='160px'">
+            <div class="collage-cell-label">Fig. 13</div>
+          </div>
       </div>
 
       <p>The data collected from running the prompts through the different languages was then analyzed using tests for
@@ -1061,18 +1067,6 @@
             <img src="/languageswithinlanguages/Palmer2.png" alt="Palmer Figure 2" onerror="this.style.background='#f5eef8'; this.style.minHeight='160px'">
             <div class="collage-cell-label">Fig. 2</div>
           </div>
-          <div class="collage-cell" onclick="openLightbox(palmerFigs, 2)">
-            <img src="/languageswithinlanguages/Palmer3.png" alt="Palmer Figure 3" onerror="this.style.background='#eef5f8'; this.style.minHeight='160px'">
-            <div class="collage-cell-label">Fig. 3</div>
-          </div>
-          <div class="collage-cell" onclick="openLightbox(palmerFigs, 3)">
-            <img src="/languageswithinlanguages/Palmer4.png" alt="Palmer Figure 4" onerror="this.style.background='#f8f5ee'; this.style.minHeight='160px'">
-            <div class="collage-cell-label">Fig. 4</div>
-          </div>
-          <div class="collage-cell" onclick="openLightbox(palmerFigs, 4)">
-            <img src="/languageswithinlanguages/Palmer5.png" alt="Palmer Figure 5" onerror="this.style.background='#f8eeee'; this.style.minHeight='160px'">
-            <div class="collage-cell-label">Fig. 5</div>
-          </div>
         </div>
         
       </div>
@@ -1182,11 +1176,15 @@
    
     // Palmer figures — update body strings with your real captions
     const palmerFigs = [
-      { src: '/languageswithinlanguages/Palmer1.png', label: 'Figure 1 — Palmer (2025)', body: 'Add caption for Palmer Figure 1 here.' },
-      { src: '/languageswithinlanguages/Palmer2.png', label: 'Figure 2 — Palmer (2025)', body: 'Add caption for Palmer Figure 2 here.' },
-      { src: '/languageswithinlanguages/Palmer3.png', label: 'Figure 3 — Palmer (2025)', body: 'Add caption for Palmer Figure 3 here.' },
-      { src: '/languageswithinlanguages/Palmer4.png', label: 'Figure 4 — Palmer (2025)', body: 'Add caption for Palmer Figure 4 here.' },
-      { src: '/languageswithinlanguages/Palmer5.png', label: 'Figure 5 — Palmer (2025)', body: 'Hypothesis 5.8 — Semantic resonance continuity cross-linguistically across semantic domains ranging from emotional statements to metaphors and idioms.' },
+      { src: '/languageswithinlanguages/Palmer.png', label: 'Table 3 — Palmer (2025)', body: 'List of semantic domains included in hypothesis 5.8 along with their correlation cross-linguistically.' },
+      { src: '/languageswithinlanguages/Palmer2.png', label: 'Figure 7 — Palmer (2025)', body: 'Add caption for Palmer Figure 2 here.' },
+    ];
+
+    const rayFigs = [
+      { src: '/languageswithinlanguages/Ray.png', label: 'Table 2 — Ray (2025)', body: 'List of semantic domains included in the hypothesis along with their correlation cross-linguistically.' },
+      { src: '/languageswithinlanguages/Ray2.png', label: 'Figure 13 — Ray (2025)', body: 'Add caption for Palmer Figure 2 here.' },
+      { src: '/languageswithinlanguages/Ray3.png', label: 'Figure 4 — Ray (2025)', body: 'Add caption for Palmer Figure 2 here.' },
+      { src: '/languageswithinlanguages/Ray4.png', label: 'Figure 1a — Ray (2025)', body: 'Add caption for Palmer Figure 2 here.' },
     ];
    
     // Lightbox
